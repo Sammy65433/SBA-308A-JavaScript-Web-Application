@@ -1,0 +1,24 @@
+{
+  "name": "sba-308a-javascript-web-application",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sammy65433/SBA-308A-JavaScript-Web-Application.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Sammy65433/SBA-308A-JavaScript-Web-Application/issues"
+  },
+  "homepage": "https://github.com/Sammy65433/SBA-308A-JavaScript-Web-Application#readme",
+  "dependencies": {
+    "node-fetch": "^2.7.0"
+  }
+}
