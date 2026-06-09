@@ -23,10 +23,19 @@ export async function getTeams() {
                 Authorization: API_KEY
             }
         });
+
+        // Response.ok – boolean indicating a successful HTTP status	
+        // https://developer.mozilla.org/en-US/docs/Web/API/Response/ok
+
     // Check for http errors 
     if (!response.ok) {
 
+
+        // Error constructor – creating custom errors	
+        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
         throw new Error(`Failed to fetch teams ${response.status})`);
+        // Template literals (`…${…}`)	
+        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
     }
     // convert to JSON
     const data = await response.json();

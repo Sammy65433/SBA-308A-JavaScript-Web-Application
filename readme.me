@@ -9,18 +9,68 @@ display NBA team data. Users can browse teams and interact with the app thru sea
 filters, or button selections to view team info.
 
 Project structure:
-`index.html` - page structure 
-`style.css` - styling 
-`main.js` - event listener and app logic  - "Controls what happens when app starts
 `api.js` - API request - "Handle API request"
+`index.html` - page structure 
+`test-api.mjs` - test api.js 
+`main.js` - event listener and app logic  - "Controls what happens when app starts
+`style.css` - styling 
 `ui.js` - render data to page 
 
 
 Steps 1 - Lets see if we can get data 
 
 Handle API REQUEST 
+Api.js
+Make a request / await - Fetch / check for errors  Template literals / convert to Json 
 
 
+Step 2
+Test api.js thru test-api.mjs
+Make a request / await - Fetch / check for errors  Template literals / convert to Json 
+getTeams().then(console.log).catch(console.error);
+
+Result =  Full array of team and team object
+
+
+Step 3 - `main.js` - event listener and app logic  - 
+"Controls what happens when app starts
+
+import getTeams function from api.js
+async function
+Load teams 
+wait for Api request 
+try n catch 
+run function
+
+Result =
+(45) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, 
+{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, 
+{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
+
+
+Step 4 - `index.html` - page structure 
+
+Add container in html 
+Call the team list in ui.js and render teams
+ui.js bridges raw data and what user sees 
+
+export so main.js can import 
+find the team list div in index.html
+Empty contaainer (filter or reload page )
+loop or iterate the teams obj in API
+make new div for each team and assign CSS class
+Build Card:
+<strong>${teams.full_name}</strong>
+Insert plain text into the <strong>	
+Append the <strong> as a child of the card	
+
+const abbrev = document.createTextNode(` (${team.abbreviation})`);
+space + (abbr)
+line break
+city - conference - turn plain text to string 
+Append the card as a child of the card	
+
+Step 5 
 
 
 
@@ -39,3 +89,22 @@ https://developer.mozilla.org/en-US/docs/Web/API/Response/json
 export / import
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import
+
+export function renderTeams…	Export a function from a module	https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export
+document.getElementById("team-list")	Grab an element by its id	https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById
+container.innerHTML = ""	Set (or clear) the HTML inside an element	https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML
+teams.forEach(team => { … })	Iterate over an array	https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
+document.createElement("div")	Create a new DOM element	https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement
+card.className = "team-card"	Assign a CSS class to the element	https://developer.mozilla.org/en-US/docs/Web/API/Element/className
+`…${team.full_name}…`	Template literal – embed JS expressions in a string	https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
+container.appendChild(card)	Append the new element as a child of the container	https://developer.mozilla.org/en-US/docs/Web/API/Node/appendChild
+card.innerHTML = …``	Insert markup into the newly created element	https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML
+
+container.textContent = ""	Clear the element’s text (and any child nodes)	https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent
+card.className = "team-card"	Assign a CSS class name to the element	https://developer.mozilla.org/en-US/docs/Web/API/Element/className
+document.createElement("strong")	Create a <strong> element	https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement
+strong.textContent = team.full_name	Insert plain text into the <strong>	https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent
+document.createTextNode(` (${team.abbreviation})`)	Create a raw text node (the space and abbreviation)	https://developer.mozilla.org/en-US/docs/Web/API/Document/createTextNode
+card.appendChild(abbrev)	Add the text node to the card	https://developer.mozilla.org/en-US/docs/Web/API/Node/appendChild
+document.createElement("br")	Create a line‑break element	https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement
+card.appendChild(document.createElement("br"))	Insert the <br> into the card	https://developer.mozilla.org/en-US/docs/Web/API/Node/appendChild
