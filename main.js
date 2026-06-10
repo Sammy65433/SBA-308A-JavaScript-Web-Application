@@ -5,6 +5,8 @@
 import {
     getTeams
 } from "./api.js";
+
+
 import {
     renderTeams
 } from "./ui.js";
@@ -46,8 +48,16 @@ async function init() {
 // getTeams() returns a complete Array
 function attachSearch(allTeams) {
 
+    // Grab the search element from DOM
+const input = document.getElementById("search");
+
+// listen for input event 
+input.addEventListener("input", () => {
+// case insensitive 
+    const term = input.ariaValueMax.trim().toLowerCase();
+})
+
 }
-// Grab the search element from DOM
 
 
 loadTeams();
