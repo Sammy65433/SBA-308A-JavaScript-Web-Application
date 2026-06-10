@@ -35,6 +35,7 @@ async function init() {
         // wait for Api request 
         const teams = await getTeams();
         renderTeams(teams);
+        attachSearch(teams);
         // console.log(teams);
     } catch (e) {
         console.error(e)
@@ -49,15 +50,29 @@ async function init() {
 function attachSearch(allTeams) {
 
     // Grab the search element from DOM
-const input = document.getElementById("search");
+    const input = document.getElementById("search");
 
-// listen for input event 
-input.addEventListener("input", () => {
-// case insensitive 
-    const term = input.ariaValueMax.trim().toLowerCase();
-})
+    // listen for input event 
+    input.addEventListener("input", () => {
+        // case insensitive 
+        // String.prototype.trim()	Removes leading and trailing whitespace.	
+        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/trim
+        // String.prototype.toLowerCase()	Returns a lower‑case version of the string.	
+        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toLowerCase
+        const term = input.ariaValueMax.trim().toLowerCase();
+
+        // build filtered to turn the user’s free‑text input into a concrete, immutable list
+        const filtered = allTeams.filter(team =>
+            team.fullname.toLowerCase().includes(term) ||
+            team.abbreviation.toLowerCase().includes(term) ||
+            team.city.toLowerCase().includes(term) ||
+            team.conference.toLowerCase().includes(term)
+        );
+        renderTeams(filtered)
+    });
 
 }
 
 
-loadTeams();
+// loadTeams();
+document.addEventListener("DOMContentLoaded", init);

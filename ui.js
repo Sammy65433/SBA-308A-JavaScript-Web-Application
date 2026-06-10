@@ -7,9 +7,11 @@ export function renderTeams(teams) {
     // Empty contaainer (filter or reload page )
     container.textContent = "";
 
+    const fragment = document.createDocumentFragment();
+
     // loop or iterate the teams obj in API
     teams.forEach(team => {
-        console.log("render", team.full_name);
+        // console.log("render", team.full_name);
 
         // make new div for each team and assign CSS class
         const card = document.createElement("div");
@@ -61,7 +63,7 @@ export function renderTeams(teams) {
 
         // space + (abbr)
         const abbrev = document.createTextNode(` (${team.abbreviation})`);
-
+        card.appendChild(abbrev);
 
         // line break
         card.appendChild(document.createElement("br"));
@@ -73,6 +75,7 @@ export function renderTeams(teams) {
 
         // Append the card as a child of the card	
         // https://developer.mozilla.org/en-US/docs/Web/API/Node/appendChild
-        container.appendChild(card)
+        fragment.appendChild(card);
     });
+    container.appendChild(fragment); // 1 DOM insert 
 }
