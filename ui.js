@@ -1,5 +1,6 @@
 // export so main.js can import 
 export function renderTeams(teams) {
+  console.log('renderTeams called – received', teams.length, 'teams');
 
     // find the team list div in index.html
     const container = document.getElementById("team-list");
