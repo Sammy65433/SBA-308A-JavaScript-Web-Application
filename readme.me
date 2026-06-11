@@ -1,6 +1,16 @@
 SBA 308A:
 ----------JavaScript Web Application---------
 
+NBA‑Team‑Explorer/
+│
+├─ api.js           // fetches team data from balldontlie (GET request)
+├─ constant.js     // PAGE_SIZE, STORAGE_KEY – shared constants
+├─ ui.js            // renderTeams() – builds DOM cards, handles favorites
+├─ main.js          // app bootstrap, search, filter, pagination, caching
+├─ index.html       // page skeleton – search box, container for cards
+├─ style.css        // responsive layout & visual polish
+└─ README.md        // this file
+
 
 NBA Team Explorer
 
@@ -8,13 +18,17 @@ This is a single page JavaScript Web Application that uses the balldontlie API t
 display NBA team data. Users can browse teams and interact with the app thru search,
 filters, or button selections to view team info.
 
-Project structure:
-`api.js` - API request - "Handle API request"
-`index.html` - page structure 
-`test-api.mjs` - test api.js 
-`main.js` - event listener and app logic  - "Controls what happens when app starts
-`style.css` - styling 
-`ui.js` - render data to page 
+
+MDN 
+API request	api.js → fetch('https://api.balldontlie.io/v1/teams')	https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
+Async/Await	await getTeams() inside init()	https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function
+Search	Input input → filter on full_name, abbreviation, city, conference	https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
+Conference filter	<select> (All/East/West) → filter on team.conference	https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement/value
+Pagination	10 items per page (PAGE_SIZE), Prev/Next + page‑number buttons, Math.ceil, Math.max, Math.min	https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/ceil
+Favorites (★/☆)	localStorage (STORAGE_KEY) + helper functions isFav, toogleFav	https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
+Modular code	import/export across four modules	https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import
+Responsive UI	CSS Grid for #team-list, flexbox for controls	https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout
+Error handling	try…catch around the fetch; console‑error logging	https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch
 
 
 Steps 1 - Lets see if we can get data 
@@ -23,6 +37,12 @@ Handle API REQUEST
 Api.js
 Make a request / await - Fetch / check for errors  Template literals / convert to Json 
 
+export async function getTeams() {
+  const resp = await fetch('https://api.balldontlie.io/v1/teams');
+  if (!resp.ok) throw new Error(`Failed ${resp.status}`);
+  const data = await resp.json();               // MDN: Response.json()
+  return data.data;                             // array of team objects
+}
 
 Step 2
 Test api.js thru test-api.mjs
@@ -31,6 +51,9 @@ getTeams().then(console.log).catch(console.error);
 
 Result =  Full array of team and team object
 
+function getFavIds() { … }          // read from localStorage
+function isFav(id) { … }            // check if id is in the fav list
+function toogleFav(team, btn) { … } // add/remove id, update button text
 
 Step 3 - `main.js` - event listener and app logic  - 
 "Controls what happens when app starts
@@ -72,7 +95,39 @@ Append the card as a child of the card
 
 Step 5 
 
+/* Grid layout – auto‑fills columns, 260 px minimum */
+#team-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
 
+/* Card hover lift */
+.team-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0,0,0,.12);
+}
+
+
+
+
+
+Testing (test-api.mjs)
+
+import { getTeams } from "./api.js";
+
+getTeams()
+  .then(console.log)    // prints the full array of 45 objects (incl. historic)
+  .catch(console.error);
+
+
+
+
+  The hardest part was keeping the pagination container in sync – 
+  creating a new element each render left the UI empty. 
+  Switching to document.getElementById('pagination').
+
+  i didnt solve the pagination problem / i didnt finsih 
 
 
 
