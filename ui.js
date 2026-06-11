@@ -1,6 +1,10 @@
+import { PAGE_SIZE, STORAGE_KEY } from "./constant.js";
+
+
+
 // export so main.js can import 
-export function renderTeams(teams) {
-  console.log('renderTeams called – received', teams.length, 'teams');
+export function renderTeams(teams, page = 1) {
+  console.log('renderTeams called – received', teams.length, 'teams (page', page, ')');
 
     // find the team list div in index.html
     const container = document.getElementById("team-list");
@@ -8,16 +12,29 @@ export function renderTeams(teams) {
     // Empty contaainer (filter or reload page )
     container.textContent = "";
 
+
+    // Pagination 
+
+const start = (page - 1) * PAGE_SIZE;
+        const pageTeams = team.slice(start, start + PAGE_SIZE);
+
+
+
     const fragment = document.createDocumentFragment();
 
     // loop or iterate the teams obj in API
-    teams.forEach(team => {
+    pageTeams.forEach(team => {
         // console.log("render", team.full_name);
 
         // make new div for each team and assign CSS class
         const card = document.createElement("div");
         card.className = "team-card";
 
+        // add team click 
+
+        card.addEventListener("click", () => alert(team.full_name));
+
+        // fragment.appendChild(card);
         // Build Card:
         // Template literal – embed JS expressions in a string	
         // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
@@ -29,10 +46,13 @@ export function renderTeams(teams) {
         //  <strong>${teams.full_name}</strong> (${teams.abbreviation})<br>
         //  ${teams.city} - ${teams.conference}
         //  `;
+        
+
+
 
 
         //  <strong>${teams.full_name}</strong>
-
+// TEAM Name 
         const strong = document.createElement("strong");
 
         // Insert plain text into the <strong>	
@@ -61,10 +81,10 @@ export function renderTeams(teams) {
         //   });
         // });
 
-
+// ABBrev
         // space + (abbr)
-        const abbrev = document.createTextNode(` (${team.abbreviation})`);
-        card.appendChild(abbrev);
+        card.appendChild(document.createTextNode(` (${team.abbreviation})`));
+        // card.appendChild(abbrev);
 
         // line break
         card.appendChild(document.createElement("br"));
@@ -74,9 +94,35 @@ export function renderTeams(teams) {
         const info = document.createTextNode(`${team.city} - ${team.conference}`);
         card.appendChild(info);
 
+        // fav button
+        const star = document.createElement("button");
+        star.textContent = isFav(team.id) ? "★" : "☆";
+        star.className = "fav-btn";
+
+
+        star.addEventListener("click", e => {
+            e.stopPropagation();
+            toogleFav
+        })
+
         // Append the card as a child of the card	
         // https://developer.mozilla.org/en-US/docs/Web/API/Node/appendChild
         fragment.appendChild(card);
     });
     container.appendChild(fragment); // 1 DOM insert 
+}
+
+
+// Helper Function FAVORITES - Stored in local storage 
+
+// which teams are saved for star 
+function getFavIds() {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+
+}
+// decide the star’s initial state and later to decide whether clicking 
+// the star should add or remove the team.
+function isFav(id) {
+    return getFavIds().includes(id);
 }

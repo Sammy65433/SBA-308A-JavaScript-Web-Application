@@ -68,6 +68,12 @@ function attachSearch(allTeams) {
         // String.prototype.toLowerCase()	Returns a lower‑case version of the string.	
         // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toLowerCase
         const term = input.value.trim().toLowerCase();
+        if (terms === "") {
+    filtered = [...activeTeams];
+    currentPage = 1
+    renderCurrentPage();
+    return;
+        }
 
         // build filtered to turn the user’s free‑text input into a concrete, immutable list
         const filtered = allTeams.filter(team =>
@@ -76,7 +82,9 @@ function attachSearch(allTeams) {
             team.city.toLowerCase().includes(term) ||
             team.conference.toLowerCase().includes(term)
         );
-        renderTeams(filtered)
+currentPage = 1;
+renderCurrentPage();
+        // renderTeams(filtered)
     });
 
 }

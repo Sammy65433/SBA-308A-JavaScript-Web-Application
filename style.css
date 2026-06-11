@@ -1,0 +1,15 @@
+.team-card {
+    padding: .8rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: #fff;
+    margin-bottom: .8rem;
+    /* visual for click */
+    cursor: pointer; 
+    transition: transform .15s ease, box-shadow .15s ease;
+
+}
+.team-card:hover {
+    transform: translate(-2px);
+    box-shadow: 0 2px 6px rgba(red, green, blue, alpha);
+}
