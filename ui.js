@@ -105,13 +105,14 @@ export function renderTeams(teams, page = 1) {
 
         star.addEventListener("click", e => {
             e.stopPropagation();
-            toogleFav
+            toogleFav(team, star);
         })
 
         // Append the card as a child of the card	
         // https://developer.mozilla.org/en-US/docs/Web/API/Node/appendChild
         card.appendChild(document.createElement("br"));
         card.appendChild(star);
+        fragment.appendChild(card);
     });
     container.appendChild(fragment); // 1 DOM insert 
 }

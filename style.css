@@ -1,3 +1,27 @@
+
+/* Page basics */
+body {
+    font-family: system-ui, Arial, Helvetica, sans-serif;
+    background: #f5f5f5;
+    margin: 0;
+    padding: 2rem;
+    color: #333;
+}
+
+/* header & controls  */
+
+h1 {
+    text-align: center;
+    margin-bottom: 1rem;
+    color: #0066cc;
+}
+
+#team-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+}
+/* card - base style */
 .team-card {
     padding: .8rem;
     border: 1px solid #ddd;
@@ -9,7 +33,27 @@
     transition: transform .15s ease, box-shadow .15s ease;
 
 }
-.team-card:hover {
-    transform: translate(-2px);
-    box-shadow: 0 2px 6px rgba(red, green, blue, alpha);
+.team-card:hover,
+.team-card:focus-within {
+    transform: translate(-3px);
+    box-shadow: 0 4px 12px rgba(red, green, blue, alpha);
+}
+.team-card strong {
+    font-size: 1.05rem;
+    color: #222;
+}
+.fav-btn {
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    line-height: 1;
+    cursor: pointer;
+    color: #ff9800;
+    transition: color .2s;
+}
+.fav-btn:hover {
+    color: #ff6f00;
+}
+.fav-btn:hover {
+    outline: 2px solid #ff9800;
 }
