@@ -11,6 +11,14 @@ import {
     renderTeams
 } from "./ui.js";
 
+import { PAGE_SIZE, STORAGE_KEY } from "./constant.js";
+
+// const STORAGE_KEY = "nbaTeams"
+
+let allTeams = [];
+let filteredTeams = [];
+let currentPage = 1;
+
 // async function
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function
 
@@ -32,16 +40,32 @@ import {
 
 async function init() {
     try {
-        // wait for Api request 
-        const rawTeams = await getTeams();
-        console.log('fetch succeeded – rawTeams length:', rawTeams.length);
+        // load from localstorage 
+        const cached = localStorage.getItem(STORAGE_KEY);
+        let rawTeams;
+        if (cached) {
+            allTeams =JSON.parse(cached);
+            console.log("Loaded teams from localstorage");
+        } else {
+        rawTeams = await getTeams();
+        allTeams = rawTeams.filter(t => t.id <= 30);
+        localStorage.setItem(STORAGE_KEY,JSON.stringify(allTeams));
+        console.log("fetch teams from API and cached");
+
+        }
+                // wait for Api request 
+
+        // console.log('fetch succeeded – rawTeams length:', rawTeams.length);
 
 
-        const activeTeams = rawTeams.filter(t => t.id <= 30);
-        console.log('after filter – activeTeams length:', activeTeams.length); // should be 30
+        // console.log('after filter – activeTeams length:', activeTeams.length); // should be 30
+filteredTeams = [...allTeams];
+currentPage = 1;
 
-        renderTeams(activeTeams);
-        attachSearch(activeTeams);
+renderCurrentPage();
+attachSearch()
+        // renderTeams(activeTeams);
+        // attachSearch(activeTeams);
         // console.log(teams);
     } catch (err) {
         console.error(' init error:', err);
@@ -55,7 +79,8 @@ async function init() {
 
 // SEARCH LOGIC 
 // getTeams() returns a complete Array
-function attachSearch(allTeams) {
+// reset all teams 
+function attachSearch() {
 
     // Grab the search element from DOM
     const input = document.getElementById("search");
@@ -87,6 +112,25 @@ renderCurrentPage();
         // renderTeams(filtered)
     });
 
+
+}
+
+// Conference Dropdown 
+function attachConferenceFilter() {
+
+
+
+
+
+}
+
+
+
+
+
+function renderCurrentPage() {
+    renderTeams(filteredTeams,currentPage);
+    
 }
 
 

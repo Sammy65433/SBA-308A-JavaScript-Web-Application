@@ -1,10 +1,13 @@
-import { PAGE_SIZE, STORAGE_KEY } from "./constant.js";
+import {
+    PAGE_SIZE,
+    STORAGE_KEY
+} from "./constant.js";
 
 
 
 // export so main.js can import 
 export function renderTeams(teams, page = 1) {
-  console.log('renderTeams called – received', teams.length, 'teams (page', page, ')');
+    console.log('renderTeams called – received', teams.length, 'teams (page', page, ')');
 
     // find the team list div in index.html
     const container = document.getElementById("team-list");
@@ -15,8 +18,8 @@ export function renderTeams(teams, page = 1) {
 
     // Pagination 
 
-const start = (page - 1) * PAGE_SIZE;
-        const pageTeams = team.slice(start, start + PAGE_SIZE);
+    const start = (page - 1) * PAGE_SIZE;
+    const pageTeams = teams.slice(start, start + PAGE_SIZE);
 
 
 
@@ -46,13 +49,13 @@ const start = (page - 1) * PAGE_SIZE;
         //  <strong>${teams.full_name}</strong> (${teams.abbreviation})<br>
         //  ${teams.city} - ${teams.conference}
         //  `;
-        
+
 
 
 
 
         //  <strong>${teams.full_name}</strong>
-// TEAM Name 
+        // TEAM Name 
         const strong = document.createElement("strong");
 
         // Insert plain text into the <strong>	
@@ -81,7 +84,7 @@ const start = (page - 1) * PAGE_SIZE;
         //   });
         // });
 
-// ABBrev
+        // ABBrev
         // space + (abbr)
         card.appendChild(document.createTextNode(` (${team.abbreviation})`));
         // card.appendChild(abbrev);
@@ -107,7 +110,8 @@ const start = (page - 1) * PAGE_SIZE;
 
         // Append the card as a child of the card	
         // https://developer.mozilla.org/en-US/docs/Web/API/Node/appendChild
-        fragment.appendChild(card);
+        card.appendChild(document.createElement("br"));
+        card.appendChild(star);
     });
     container.appendChild(fragment); // 1 DOM insert 
 }
@@ -125,4 +129,23 @@ function getFavIds() {
 // the star should add or remove the team.
 function isFav(id) {
     return getFavIds().includes(id);
+}
+
+function toogleFav(team, btnEl) {
+    // pull current list of favids from sstorage 
+    const favs = getFavIds();
+
+    // does this team exist 
+    if (isFav(team.id)) {
+        // remove id 
+        const idx = favs.indexOf(team.id); //postion id in array
+        favs.splice(idx, 1); //delete sinlge element 
+        btnEl.textContent = "☆"; // change to empty star 
+    } else {
+        // add id 
+        favs.push(team.id); //append team id 
+        btnEl.textContent = "☆"; //change to fill star 
+
+    }
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(favs));
 }
